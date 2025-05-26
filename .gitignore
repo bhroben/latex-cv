@@ -1,1 +1,17 @@
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+.DS_Store
+
 todo.md

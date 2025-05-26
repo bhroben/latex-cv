@@ -8,5 +8,5 @@ The main reason for this repo is that on Overleaf checking previous versions is 
 ## Usage
 
 - Cloning the Repository: Clone the repository to your local machine if you want to view or edit the LaTeX source.
-- Making Changes: Edit the .tex file as needed. Commit and push changes to trigger the CI pipeline.
-- Accessing the PDF: The latest version of the compiled PDF is available in the branch gh-pages.
+- Making Changes: Edit the .tex file as needed. Use the [Latex Workshop extension](https://github.com/James-Yu/LaTeX-Workshop) locally or commit and push changes to trigger the CI pipeline.
+- Accessing the PDF: When using the pipeline the latest version of the compiled PDF is available in the branch gh-pages.

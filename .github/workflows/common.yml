@@ -46,15 +46,13 @@ jobs:
             latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex      
             qpdf main.pdf --pages . 1-1 -- Bhatti_Roben_CV.pdf && qpdf main.pdf --pages . 2-2 -- Bhatti_Roben_CV_ITA.pdf
             rm main.pdf
-         # root_file: main.tex
-         # extra_system_packages: "qpdf"
-         # post_compile: "qpdf ./main.pdf --pages . 1-1 -- ./Bhatti_Roben_CV.pdf && qpdf ./main.pdf --pages . 2-2 -- ./Bhatti_Roben_CV_ITA.pdf"
+            echo "Splitting PDF files completed."
 
       # Copy the compiled document to a folder so it can be uploaded with the artifact
       - name: Copy into folder
         run: |
           mkdir out
-          cp *.pdf out/*.pdf
+          cp ./*.pdf ./out/*.pdf
 
       - uses: actions/upload-artifact@v4
         with:

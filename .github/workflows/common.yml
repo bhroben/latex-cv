@@ -45,7 +45,7 @@ jobs:
         run: |
           mkdir out
           cp ./main.pdf ./out/main.pdf
-          pdfseparate -l 1 main.pdf Bhatti_Roben_CV.pdf && pdfseparate -f 2  -l 2 main.pdf Bhatti_Roben_CV_ITA.pdf
+          qpdf ./main.pdf --pages . 1-1 -- ./out/Bhatti_Roben_CV.pdf && qpdf ./main.pdf --pages . 2-2 -- ./out/Bhatti_Roben_CV_ITA.pdf
 
       - uses: actions/upload-artifact@v4
         with:

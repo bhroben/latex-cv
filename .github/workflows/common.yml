@@ -39,13 +39,13 @@ jobs:
         with:
           root_file: main.tex
           extra_system_packages: "qpdf"
-  
+          post_compile: "qpdf ./main.pdf --pages . 1-1 -- ./Bhatti_Roben_CV.pdf && qpdf ./main.pdf --pages . 2-2 -- ./Bhatti_Roben_CV_ITA.pdf"
+
       # Copy the compiled document to a folder so it can be uploaded with the artifact
       - name: Copy into folder
         run: |
           mkdir out
-          cp ./main.pdf ./out/main.pdf
-          qpdf ./main.pdf --pages . 1-1 -- ./out/Bhatti_Roben_CV.pdf && qpdf ./main.pdf --pages . 2-2 -- ./out/Bhatti_Roben_CV_ITA.pdf
+          cp ./*.pdf ./out/*.pdf
 
       - uses: actions/upload-artifact@v4
         with:

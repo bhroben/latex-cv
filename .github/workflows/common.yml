@@ -8,13 +8,15 @@ on:
   push:
     branches: [ "main" ]
     paths: 
-      - "Bhatti_Roben_CV.tex"
-      - "developercv.cls"
+      - "main.tex"
+      - "content.tex"
+      - "content_ita.tex"
   pull_request:
     branches: [ "main" ]
     paths: 
-      - "Bhatti_Roben_CV.tex"
-      - "developercv.cls"
+      - "main.tex"
+      - "content.tex"
+      - "content_ita.tex"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -33,24 +35,31 @@ jobs:
 
       # Compile document in docker container
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v3
+        uses: xu-cheng/texlive-action@v3
         with:
-          root_file: Bhatti_Roben_CV.tex
-        env:
-          TEXINPUTS: ".:./developercv.cls//:"
-  
+          os: debian
+          run: | 
+            # Install system dependencies
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -y
+            apt-get install -y qpdf
+            latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex      
+            qpdf main.pdf --pages . 1-1 -- Bhatti_Roben_CV.pdf && qpdf main.pdf --pages . 2-2 -- Bhatti_Roben_CV_ITA.pdf
+            rm main.pdf
+            echo "Splitting PDF files completed."
+
       # Copy the compiled document to a folder so it can be uploaded with the artifact
       - name: Copy into folder
         run: |
-          mkdir out
-          cp ./Bhatti_Roben_CV.pdf ./out/Bhatti_Roben_CV.pdf
+          mkdir ./out
+          cp ./*.pdf ./out/
 
       - uses: actions/upload-artifact@v4
         with:
           name: main
-          path: out/Bhatti_Roben_CV.pdf
+          path: ./out/*.pdf
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-            folder: out
+            folder: ./out

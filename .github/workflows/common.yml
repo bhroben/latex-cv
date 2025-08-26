@@ -52,7 +52,7 @@ jobs:
       - name: Copy into folder
         run: |
           mkdir ./out
-          cp ./*.pdf ./out/*.pdf
+          cp ./*.pdf ./out/
 
       - uses: actions/upload-artifact@v4
         with:

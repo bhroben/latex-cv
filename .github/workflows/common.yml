@@ -49,14 +49,17 @@ jobs:
             echo "Splitting PDF files completed."
 
       # Copy the compiled document to a folder so it can be uploaded with the artifact
-
+      - name: Copy into folder
+        run: |
+          mkdir ./out
+          cp ./*.pdf ./out/*.pdf
 
       - uses: actions/upload-artifact@v4
         with:
           name: main
-          path: *.pdf
+          path: ./out/*.pdf
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-            folder: .
+            folder: ./out

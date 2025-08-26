@@ -35,11 +35,20 @@ jobs:
 
       # Compile document in docker container
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v4
+        uses: xu-cheng/texlive-action@v3
         with:
-          root_file: main.tex
-          extra_system_packages: "qpdf"
-          post_compile: "qpdf ./main.pdf --pages . 1-1 -- ./Bhatti_Roben_CV.pdf && qpdf ./main.pdf --pages . 2-2 -- ./Bhatti_Roben_CV_ITA.pdf"
+          os: debian
+          run: | 
+            # Install system dependencies
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -y
+            apt-get install -y qpdf
+            latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex      
+            qpdf main.pdf --pages . 1-1 -- Bhatti_Roben_CV.pdf && qpdf main.pdf --pages . 2-2 -- Bhatti_Roben_CV_ITA.pdf
+            rm main.pdf
+         # root_file: main.tex
+         # extra_system_packages: "qpdf"
+         # post_compile: "qpdf ./main.pdf --pages . 1-1 -- ./Bhatti_Roben_CV.pdf && qpdf ./main.pdf --pages . 2-2 -- ./Bhatti_Roben_CV_ITA.pdf"
 
       # Copy the compiled document to a folder so it can be uploaded with the artifact
       - name: Copy into folder

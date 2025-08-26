@@ -8,13 +8,15 @@ on:
   push:
     branches: [ "main" ]
     paths: 
-      - "Bhatti_Roben_CV.tex"
-      - "developercv.cls"
+      - "main.tex"
+      - "content.tex"
+      - "content_ita.tex"
   pull_request:
     branches: [ "main" ]
     paths: 
-      - "Bhatti_Roben_CV.tex"
-      - "developercv.cls"
+      - "main.tex"
+      - "content.tex"
+      - "content_ita.tex"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,20 +37,20 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: Bhatti_Roben_CV.tex
-        env:
-          TEXINPUTS: ".:./developercv.cls//:"
+          root_file: main.tex
+
   
       # Copy the compiled document to a folder so it can be uploaded with the artifact
       - name: Copy into folder
         run: |
           mkdir out
-          cp ./Bhatti_Roben_CV.pdf ./out/Bhatti_Roben_CV.pdf
+          cp ./main.pdf ./out/main.pdf
+          pdfseparate -l 1 main.pdf Bhatti_Roben_CV.pdf && pdfseparate -f 2  -l 2 main.pdf Bhatti_Roben_CV_ITA.pdf
 
       - uses: actions/upload-artifact@v4
         with:
           name: main
-          path: out/Bhatti_Roben_CV.pdf
+          path: out/*.pdf
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
